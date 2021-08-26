@@ -381,7 +381,7 @@ impl<K: TS, V: TS> TS for BTreeMap<K, V> {
     }
 }
 
-impl TS for DateTime<Utc> {
+impl<T: chrono::TimeZone + 'static> TS for DateTime<T> {
     fn name() -> String {
         format!("String")
     }
