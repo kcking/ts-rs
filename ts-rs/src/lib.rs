@@ -253,7 +253,7 @@ impl_primitives! {
     u128, i128 => "bigint",
     bool => "boolean",
     String, &'static str, Uuid => "string",
-    Utc, () => "null"
+    Utc/* hack to get DateTime<Utc> to work */, () => "null"
 }
 impl_tuples!(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10);
 impl_proxy!(impl<T: TS> TS for Box<T>);
@@ -383,14 +383,14 @@ impl<K: TS, V: TS> TS for BTreeMap<K, V> {
 
 impl<T: chrono::TimeZone + 'static> TS for DateTime<T> {
     fn name() -> String {
-        format!("String")
+        format!("string")
     }
 
     fn name_with_type_args(_: Vec<String>) -> String {
         Self::name()
     }
 
-    fn inline(indent: usize) -> String {
+    fn inline(_indent: usize) -> String {
         Self::name()
     }
 
